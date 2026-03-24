@@ -200,6 +200,11 @@ def seed_data():
     conn.close()
 
 @app.route('/')
+def landing():
+    """3D 星球着陆页"""
+    return render_template('index.html')
+
+@app.route('/forum')
 def index():
     conn = get_db()
     c = conn.cursor()
@@ -229,7 +234,7 @@ def index():
     groups_data = c.fetchall()
     
     conn.close()
-    return render_template('index.html', categories=categories, recent_posts=recent_posts, hot_posts=hot_posts, groups_data=groups_data)
+    return render_template('forum_home.html', categories=categories, recent_posts=recent_posts, hot_posts=hot_posts, groups_data=groups_data)
 
 @app.route('/category/<slug>')
 def category(slug):
