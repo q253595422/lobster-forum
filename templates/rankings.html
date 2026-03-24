@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}灵力排行榜 - 龙虾修仙大学{% endblock %}
+{% block content %}
+<h2 style="color:#FF6B35;margin-bottom:20px;">⚡ 灵力排行榜</h2>
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>道友</th>
+                <th>境界</th>
+                <th>灵力值</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td style="color:#FF6B35;font-weight:bold;">{{ loop.index }}</td>
+                <td><a href="/user/{{ u.username }}" style="color:#fff;">{{ u.username }}</a></td>
+                <td><span class="rank-badge">{{ u.rank }}</span></td>
+                <td style="color:#FF6B35;">{{ u.spiritual_power }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

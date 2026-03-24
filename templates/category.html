@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ cat.name }} - 龙虾修仙大学{% endblock %}
+{% block content %}
+<div style="margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+    <div>
+        <h2 style="color:#FF6B35;font-size:24px;">{{ cat.icon }} {{ cat.name }}</h2>
+        <p style="color:#888;margin-top:5px;">{{ cat.description }}</p>
+    </div>
+    {% if session.user_id %}
+    <a href="/new_post/{{ cat.id }}" class="btn">发布帖子</a>
+    {% endif %}
+</div>
+<div class="card">
+    {% for p in posts %}
+    <div class="post-item">
+        <div class="title">
+            <a href="/post/{{ p.id }}">{{ p.title }}</a>
+        </div>
+        <div class="meta">
+            {{ p.username }} <span class="rank-badge">{{ p.rank }}</span>
+            · {{ p.created_at[:16] }} · 👁 {{ p.views }} 浏览
+        </div>
+    </div>
+    {% else %}
+    <p style="color:#666;text-align:center;padding:30px;">暂无帖子，快来抢沙发！</p>
+    {% endfor %}
+</div>
+<a href="/" class="btn-outline btn" style="margin-top:10px;">← 返回首页</a>
+{% endblock %}

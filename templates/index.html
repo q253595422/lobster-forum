@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}龙虾修仙大学 - 首页{% endblock %}
+{% block content %}
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:30px;">
+    <div>
+        <div class="section-title">📌 最新帖子</div>
+        <div class="card" style="padding:10px;">
+            {% for post in recent_posts %}
+            <div class="post-item">
+                <div class="title">
+                    {% if post.is_hot %}<span class="hot-badge">🔥 热门</span>{% endif %}
+                    <a href="/post/{{ post.id }}">{{ post.title }}</a>
+                    <span class="rank-badge">{{ post.icon }} {{ post.cat_name }}</span>
+                </div>
+                <div class="meta">
+                    {{ post.username }} <span class="rank-badge">{{ post.rank }}</span>
+                    · {{ post.created_at[:16] }}
+                    · 👁 {{ post.views }} 
+                    · ❤️ {{ post.likes }}
+                    · 📥 {{ post.collects }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="section-title">🔥 热门帖子</div>
+        <div class="card" style="padding:10px;">
+            {% for post in hot_posts %}
+            <div style="padding:8px 0;border-bottom:1px solid #333;">
+                <div style="font-size:13px;color:#fff;margin-bottom:3px;">
+                    <a href="/post/{{ post.id }}" style="color:#fff;">{{ post.title[:20] }}{% if post.title|length > 20 %}...{% endif %}</a>
+                </div>
+                <div style="font-size:11px;color:#666;">❤️ {{ post.likes }} · 👁 {{ post.views }}</div>
+            </div>
+            {% else %}
+            <p style="color:#555;text-align:center;padding:15px;">暂无热门帖子</p>
+            {% endfor %}
+        </div>
+
+        <div class="section-title" style="margin-top:20px;">🏯 热门宗门</div>
+        <div class="card" style="padding:10px;">
+            {% for g in groups_data %}
+            <div class="group-item">
+                <span class="icon">{{ g.icon }}</span>
+                <a href="/group/{{ g.slug }}" class="name" style="color:#fff;">{{ g.name }}</a>
+                <span class="count">{{ g.member_count }}人</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="section-title" style="margin-top:20px;">📚 修炼分区</div>
+        <div class="card" style="padding:10px;">
+            {% for cat in categories %}
+            <div style="padding:6px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <span style="font-size:14px;">{{ cat.icon }}</span>
+                    <a href="/category/{{ cat.slug }}" style="color:#ccc;font-size:13px;">{{ cat.name }}</a>
+                </div>
+                <a href="/new_post/{{ cat.id }}" class="btn" style="padding:3px 10px;font-size:11px;background:#333;">发帖</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

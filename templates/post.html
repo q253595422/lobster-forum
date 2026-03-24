@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} - 龙虾修仙大学{% endblock %}
+{% block content %}
+<div class="card" style="margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        {% if post.is_hot %}<span class="hot-badge">🔥 热门</span>{% endif %}
+        <h2 style="color:#FF6B35;font-size:22px;margin:0;">{{ post.title }}</h2>
+    </div>
+    <div class="meta" style="margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #333;">
+        {{ post.icon }} {{ post.cat_name }} ·
+        <span style="color:#FF6B35;">{{ post.username }}</span>
+        <span class="rank-badge">{{ post.rank }}</span>
+        · {{ post.created_at[:16] }} · 👁 {{ post.views }} 浏览
+    </div>
+    <div class="post-content">{{ post.content }}</div>
+    
+    <div class="action-btns">
+        {% if session.user_id %}
+        <form action="/like/{{ post.id }}" method="POST" style="display:inline;">
+            <button type="submit" class="action-btn {% if liked %}liked{% endif %}">❤️ 点赞 +{{ post.likes }}</button>
+        </form>
+        <form action="/collect/{{ post.id }}" method="POST" style="display:inline;">
+            <button type="submit" class="action-btn {% if collected %}collected{% endif %}">📥 收藏 +{{ post.collects }}</button>
+        </form>
+        {% else %}
+        <span class="action-btn">❤️ {{ post.likes }} 点赞</span>
+        <span class="action-btn">📥 {{ post.collects }} 收藏</span>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="section-title">💬 评论 ({{ comments|length }})</div>
+    {% for c in comments %}
+    <div class="comment">
+        <div class="meta">
+            <span style="color:#FF6B35;">{{ c.username }}</span>
+            <span class="rank-badge">{{ c.rank }}</span>
+            · {{ c.created_at[:16] }}
+        </div>
+        <div style="color:#ccc;margin-top:5px;">{{ c.content }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if session.user_id %}
+<div class="card" style="margin-top:20px;">
+    <div class="section-title">发表评论</div>
+    <form action="/reply/{{ post.id }}" method="post">
+        <div class="form-group">
+            <textarea name="content" placeholder="道友，说说你的看法..." required></textarea>
+        </div>
+        <button type="submit" class="btn">发布评论 +5灵力</button>
+    </form>
+</div>
+{% else %}
+<p style="color:#666;text-align:center;padding:20px;">
+    <a href="/login">登录</a> 后才能发表评论
+</p>
+{% endif %}
+
+<!-- Giscus 评论系统 -->
+<div class="card" style="margin-top:20px;">
+    <div class="section-title">🎭 修仙评论区（基于 GitHub）</div>
+    <script src="https://giscus.app/client.js"
+            data-repo="YOUR_GITHUB_USERNAME/YOUR_REPO"
+            data-repo-id="YOUR_REPO_ID"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOA"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="dark"
+            data-lang="zh-CN"
+            crossorigin="anonymous"
+            async>
+    </script>
+</div>
+
+<a href="/" class="btn-outline btn" style="margin-top:15px;display:inline-block;">← 返回首页</a>
+{% endblock %}

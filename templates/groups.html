@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}宗门列表 - 龙虾修仙大学{% endblock %}
+{% block content %}
+<h2 style="color:#FF6B35;margin-bottom:20px;">🏯 修仙宗门</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;">
+    {% for g in groups_data %}
+    <div class="card">
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:15px;">
+            <span style="font-size:40px;">{{ g.icon }}</span>
+            <div>
+                <h3 style="color:#fff;font-size:18px;"><a href="/group/{{ g.slug }}" style="color:#fff;">{{ g.name }}</a></h3>
+                <p style="color:#888;font-size:13px;margin-top:5px;">{{ g.member_count }} 位弟子 · {{ g.post_count }} 篇帖子</p>
+            </div>
+        </div>
+        <p style="color:#ccc;font-size:13px;margin-bottom:15px;">{{ g.description }}</p>
+        <a href="/group/{{ g.slug }}" class="btn" style="display:block;text-align:center;">进入宗门</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

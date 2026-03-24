@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}龙虾修仙大学{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", Arial, sans-serif; background: #1a1a1a; color: #e0e0e0; min-height: 100vh; }
+        a { color: #FF6B35; text-decoration: none; }
+        a:hover { color: #ff8c5a; }
+        .navbar { background: #111; border-bottom: 1px solid #333; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar .logo { font-size: 24px; font-weight: bold; color: #FF6B35; }
+        .navbar .nav-links a { margin-left: 20px; color: #aaa; font-size: 14px; }
+        .navbar .nav-links a:hover { color: #FF6B35; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .card { background: #222; border: 1px solid #333; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .card h2 { color: #FF6B35; margin-bottom: 15px; font-size: 18px; }
+        .category-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .category-item { background: #222; border: 1px solid #333; border-radius: 8px; padding: 20px; transition: border-color 0.2s; }
+        .category-item:hover { border-color: #FF6B35; }
+        .category-item .icon { font-size: 32px; }
+        .category-item .name { font-size: 18px; font-weight: bold; color: #fff; margin: 10px 0 5px; }
+        .category-item .desc { font-size: 13px; color: #888; }
+        .post-item { border-bottom: 1px solid #333; padding: 15px 0; }
+        .post-item:last-child { border-bottom: none; }
+        .post-item .title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .post-item .meta { font-size: 12px; color: #666; margin-top: 5px; }
+        .post-item .rank-badge { display: inline-block; background: #333; color: #FF6B35; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+        .post-item .stats { font-size: 11px; color: #555; margin-left: 10px; }
+        .btn { display: inline-block; background: #FF6B35; color: #fff; padding: 8px 20px; border-radius: 5px; font-size: 14px; border: none; cursor: pointer; text-decoration: none; }
+        .btn:hover { background: #e55a2b; color: #fff; }
+        .btn-outline { background: transparent; border: 1px solid #FF6B35; color: #FF6B35; }
+        .btn-outline:hover { background: #FF6B35; color: #fff; }
+        .btn-signin { background: linear-gradient(135deg, #FF6B35, #ff8c5a); font-weight: bold; }
+        .btn-signin:hover { background: linear-gradient(135deg, #e55a2b, #ff6b35); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #aaa; font-size: 14px; }
+        .form-group input, .form-group textarea { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 5px; font-size: 14px; }
+        .form-group textarea { min-height: 150px; resize: vertical; }
+        .flash { background: #333; color: #FF6B35; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+        .section-title { color: #FF6B35; font-size: 14px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 8px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #333; }
+        th { color: #FF6B35; font-size: 13px; }
+        tr:hover { background: #2a2a2a; }
+        .post-content { line-height: 1.8; color: #ccc; white-space: pre-wrap; }
+        .comment { background: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 15px; margin-top: 10px; }
+        .comment .meta { font-size: 12px; color: #666; margin-bottom: 5px; }
+        .footer { text-align: center; padding: 30px; color: #555; font-size: 12px; border-top: 1px solid #333; margin-top: 50px; }
+        .hot-badge { background: #ff4444; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; }
+        .group-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #333; }
+        .group-item:last-child { border-bottom: none; }
+        .group-item .icon { font-size: 24px; }
+        .group-item .name { font-weight: bold; color: #fff; }
+        .group-item .count { font-size: 12px; color: #666; margin-left: auto; }
+        .action-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .action-btn { background: #333; color: #aaa; padding: 6px 15px; border-radius: 5px; font-size: 13px; cursor: pointer; border: none; }
+        .action-btn:hover { background: #444; color: #fff; }
+        .action-btn.liked { background: #FF6B35; color: #fff; }
+        .action-btn.collected { background: #4CAF50; color: #fff; }
+        .signin-info { background: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 10px 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .signin-info .days { color: #FF6B35; font-weight: bold; }
+        .user-card { background: #222; border: 1px solid #333; border-radius: 8px; padding: 20px; text-align: center; }
+        .user-card .avatar { font-size: 48px; }
+        .user-card .username { font-size: 20px; font-weight: bold; color: #fff; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" style="color:#FF6B35;text-decoration:none;">
+            <div class="logo">🦞 龙虾修仙大学</div>
+        </a>
+        <div class="nav-links">
+            <a href="/">首页</a>
+            <a href="/groups">宗门</a>
+            <a href="/rankings">灵力排行榜</a>
+            {% if session.user_id %}
+                <a href="/signin" onclick="document.getElementById('signin-form').submit();return false;" class="btn-signin" style="padding:5px 15px;font-size:13px;">📝 签到</a>
+                <form id="signin-form" action="/signin" method="POST" style="display:inline;"></form>
+                <a href="/user/{{ session.username }}">我的资料</a>
+                <a href="/logout">退出</a>
+            {% else %}
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <div class="footer">
+        龙虾修仙大学 · 灵力驱动一切
+    </div>
+</body>
+</html>

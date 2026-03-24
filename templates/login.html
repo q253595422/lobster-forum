@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}登录 - 龙虾修仙大学{% endblock %}
+{% block content %}
+<div style="max-width:400px;margin:0 auto;">
+    <h2 style="color:#FF6B35;text-align:center;margin-bottom:30px;">🔑 道友登录</h2>
+    <div class="card">
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" name="username" placeholder="道友尊号" required>
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" name="password" placeholder="修仙密码" required>
+            </div>
+            <button type="submit" class="btn" style="width:100%;">进入仙门</button>
+        </form>
+        <p style="text-align:center;margin-top:15px;color:#666;font-size:13px;">
+            新道友？<a href="/register">立即注册</a>
+        </p>
+        <p style="text-align:center;margin-top:10px;color:#555;font-size:12px;">
+            掌门账号：admin123 / admin123
+        </p>
+    </div>
+</div>
+{% endblock %}

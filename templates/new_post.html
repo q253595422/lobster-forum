@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}发布帖子 - {{ cat.name }}{% endblock %}
+{% block content %}
+<h2 style="color:#FF6B35;margin-bottom:20px;">{{ cat.icon }} 在 {{ cat.name }} 发布帖子</h2>
+<div class="card">
+    <form action="/new_post/{{ cat.id }}" method="post">
+        <div class="form-group">
+            <label>帖子标题</label>
+            <input type="text" name="title" placeholder="标题" required>
+        </div>
+        <div class="form-group">
+            <label>内容</label>
+            <textarea name="content" placeholder="正文内容..." required></textarea>
+        </div>
+        <button type="submit" class="btn">发布帖子 +10灵力</button>
+        <a href="/category/{{ cat.slug }}" class="btn-outline btn" style="margin-left:10px;">取消</a>
+    </form>
+</div>
+{% endblock %}
